@@ -95,6 +95,7 @@ export default {
     ...mapMutations(['setLevel', 'setMines', 'setChecked']),
     handlerClickRight(e){
       if(e.which == 3) {
+        alert('prueba click')
         this.check(`${e.target.id}r`)
       }
     },
