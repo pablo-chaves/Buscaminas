@@ -20,9 +20,11 @@ export default createStore({
     setCheckMines(state, payload) {
       state.checkMines = payload
     },
-    setChecked(state, payload) {
-      if(typeof payload === 'number') return state.checked[payload] = true;
-      if(typeof payload === 'string') return state.checked[payload] = true;
+    setChecked(state, { id, flag } = {} ) {
+      console.log(typeof flag )
+      if(typeof flag === 'boolean') return state.checked[id] = false;
+      if(typeof id === 'number') return state.checked[id] = true;
+      if(typeof id === 'string') return state.checked[id] = true;
       state.checked = {};
     }
   },

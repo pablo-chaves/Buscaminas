@@ -16,7 +16,7 @@ export default {
       arrayBackup: [],
       finishId: '',
       finishLevel: (item) => this.setLevel(item),
-      check: (item) => this.setChecked(item),
+      check: (item, flag) => this.setChecked(item, flag),
       colors: {
         1: 'blue',
         2: 'green',
@@ -94,17 +94,23 @@ export default {
   methods: {
     ...mapMutations(['setLevel', 'setMines', 'setChecked']),
     handlerClickRight(e){
+
       if(e.which == 3) {
-        alert('prueba click')
-        this.check(`${e.target.id}r`)
+        document.oncontextmenu = () => false;
+        if(this.checked[`${e.target.id}r`]) {
+          console.log(this.checked)
+          this.check({ id:`${e.target.id}r`, flag: false })  
+        }
+        this.check({ id: `${e.target.id}r` })
       }
+
     },
     handlerClick(e) {
       
       const gameOver = (id) => {
         for(let i=0; i < this.minesRandom.length; i++) {
           if(this.minesRandom[i].mine) {
-            this.check(i)
+            this.check({id: i})
           }
         }
         this.finish = id 
@@ -112,7 +118,6 @@ export default {
       }
     
       const positionId = Number(e.target.id);
-      console.log('importante ===>', this.checked, positionId, e.target)
       if(!this.level.loser && !this.checked[positionId]) {
 
         if(this.minesRandom[positionId].mine) return gameOver(positionId);
@@ -142,14 +147,14 @@ export default {
                   console.log(array, i)
                   // open(array[i].position, boardRow);
                 }
-                this.check(array[i].position);
+                this.check({ id: array[i].position });
                 
               }
             }
           }
           open(positionId, this.level.cant);
         }
-        this.check(positionId)
+        this.check({ id: positionId })
       }
     }
   }
